@@ -1,7 +1,9 @@
 package com.example.clientapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -44,5 +46,10 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+    public void buttonClicked(View view){
+        Intent intent=new Intent(MainActivity.this,MapsActivity.class);
+        intent.putExtra("LOCVAL",value);
+        startActivity(intent);
     }
 }
