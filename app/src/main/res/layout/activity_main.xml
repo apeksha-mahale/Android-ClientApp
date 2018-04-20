@@ -15,10 +15,17 @@
         android:id="@+id/LocText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:text="" />
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Show Location On Map"
-        android:onClick="buttonClicked"/>
+        android:text="Summon Closest Ambulance"
+        android:onClick="buttonClicked"
+        android:id="@+id/clickBut"/>
+    <TextView
+        android:id="@+id/minAmb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Click the button to find closest ambulance" />
+
 </LinearLayout>
