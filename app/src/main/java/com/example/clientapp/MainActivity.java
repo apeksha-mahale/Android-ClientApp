@@ -19,6 +19,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Arrays;
+import java.util.Collections;
+
 public class MainActivity extends AppCompatActivity {
 
     String value = null;
@@ -106,17 +109,19 @@ public class MainActivity extends AppCompatActivity {
                                 Log.i("Distance"+Integer.toString(j)+" : ", Double.toString(distance));
                                 dis[j] = distance;
                                 Log.i("Coordinates of distance"+Integer.toString(j)+" : ", "Distance is " + Double.toString(dis[j]));
-                                if (dis[j] < minDist) {
-                                    dis[j] = minDist;
-                                    minAmb = j;
-                                }
                                 j++;
                             }
-                            DatabaseReference myRef1 = FirebaseDatabase.getInstance().getReference("AmbulanceList");
-                            DatabaseReference zero = myRef1.child("PickupLoc");
-                            zero.setValue(locArray[minAmb]);
 
                         }
+                        double minDistance = Collections.min(Arrays.asList(dis));
+                        if(minDistance==dis[0])minAmb=0;
+                        else if(minDistance==dis[1])minAmb=1;
+                        else minAmb=2;
+                        Toast.makeText(getApplicationContext(), Integer.toString(minAmb),
+                                Toast.LENGTH_LONG).show();
+                        DatabaseReference myRef1 = FirebaseDatabase.getInstance().getReference("AmbulanceList");
+                        DatabaseReference zero = myRef1.child("PickupLoc");
+                        zero.setValue(locArray[minAmb]);
                         av = minAmb;
                         Log.i("Min Ambulance", Integer.toString(minAmb));
                         TextView textView=(TextView) findViewById(R.id.LocText);
@@ -138,7 +143,6 @@ public class MainActivity extends AppCompatActivity {
                                     Log.i("Log 3", "Before Toast");
                                     DatabaseReference myR = FirebaseDatabase.getInstance().getReference("AmbulanceList");
                                     DatabaseReference zero = myR.child("PickupLoc");
-
 
                                     zero.addValueEventListener(new ValueEventListener() {
                                         @Override
