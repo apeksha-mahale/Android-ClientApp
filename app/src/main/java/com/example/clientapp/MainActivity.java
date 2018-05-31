@@ -109,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
                                         Log.i("Coordinates of y", Integer.toString(y) + " , " + locArray[y]);
                                     for(int u=0;u<=2;u++)dis[u]= Double.MAX_VALUE;
                                     int minAmb = -1;
+                                    int c=0;
                                     for (String eachLoc : locArray) {
                                         String[] latlong = new String[1];
                                         j++;
@@ -121,8 +122,13 @@ public class MainActivity extends AppCompatActivity {
                                             Log.i("Distance" + Integer.toString(j) + " : ", Double.toString(distance));
                                             dis[j] = distance;
                                             Log.i("Coordinates of distance" + Integer.toString(j) + " : ", "Distance is " + Double.toString(dis[j]));
-
+                                            c++;
                                         }
+
+                                    }
+                                    if(c==0){
+                                        Toast.makeText(getApplicationContext(), "Ambulance unavailable",
+                                                Toast.LENGTH_SHORT).show();
 
                                     }
                                     for(int u=0;u<=2;u++)Log.i("Coordinates of distance outside" + Integer.toString(j) + " : ", "Distance is " + Double.toString(dis[j]));
@@ -130,8 +136,9 @@ public class MainActivity extends AppCompatActivity {
                                     if (minDistance == dis[0]) minAmb = 0;
                                     else if (minDistance == dis[1]) minAmb = 1;
                                     else minAmb=2;
+
                                     Toast.makeText(getApplicationContext(), Integer.toString(minAmb),
-                                            Toast.LENGTH_LONG).show();
+                                            Toast.LENGTH_SHORT).show();
                                     DatabaseReference myRef1 = FirebaseDatabase.getInstance().getReference("AmbulanceList");
                                     DatabaseReference zero = myRef1.child("PickupLoc");
                                     zero.setValue(locArray[minAmb]);
@@ -167,6 +174,11 @@ public class MainActivity extends AppCompatActivity {
                                                         String value = null;
                                                         value = dataSnapshot.getValue(String.class);
                                                         SmsManager smsManager = SmsManager.getDefault();
+                                                        if(value==null){
+                                                            Toast.makeText(getApplicationContext(), "No ambulance currently available",
+                                                                    Toast.LENGTH_LONG).show();
+                                                            System.exit(0);
+                                                        }
                                                         String[] ltlng = value.split(",");
                                                         Uri builder = Uri.parse("http://maps.google.com/maps?daddr=" + ltlng[0] + "," + ltlng[1]);
                                                         String myUrl = builder.toString();
